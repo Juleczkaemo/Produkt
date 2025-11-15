@@ -20,6 +20,14 @@
                 x:Name="StockEntry"
                 Placeholder="Ilosc na magazynie"
                 />
+            <Entry
+                x:Name="DiscountEntry"
+                Placeholder="Rabat w procentach"
+                />
+            <Entry
+                x:Name="SellEntry"
+                Placeholder="Ilosc do sprzedania"
+                />
             <Button
                 Text="Utworz produkt"
                 Clicked="CreateProduct"

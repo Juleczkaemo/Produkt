@@ -6,6 +6,17 @@ namespace MauiApp5
         private string name;
         private decimal price;
         private int stock;
+        private decimal discount;
+        private int soldValue;
+
+        public Product(string name, decimal price, int stock, decimal discount, int soldValue)
+        {
+            Name = name;
+            Price = price;
+            Stock = stock;
+            Discount = discount;
+            SoldValue = soldValue;
+        }
 
         public string Name
         {
@@ -16,17 +27,15 @@ namespace MauiApp5
                     name = value;
             }
         }
-
         public decimal Price
         {
             get => price;
             set 
             {
-                if (value <= 0) throw new ArgumentException("Cena musi byc mniejsza niz 0");
+                if (value <= 0) throw new ArgumentException("Cena musi byc wieksza niz 0");
                     price = value;
             }
         }
-
         public int Stock
         {
             get => stock;
@@ -37,17 +46,46 @@ namespace MauiApp5
  
             }
         }
-
-        public Product(string name, decimal price, int stock)
+        public decimal Discount
         {
-            Name = name;
-            Price = price;
-            Stock = stock;
+            get => discount;
+            set
+            {
+                if (value < 0 || value > 100) throw new ArgumentException("Rabat nie jest w przedziale 0-100");
+                discount = value;
+            }
         }
-
+        public int SoldValue
+        {
+            get => soldValue;
+            set
+            {
+                if (value < 0) throw new ArgumentException("Ilosc przedmiotow do sprzedana jest ujemna");
+                if (value > stock) throw new ArgumentException("Nie ma tylu przedmiotow na magazynie");
+                soldValue = value;
+            }
+        }
+        public decimal DiscountPrice(decimal discount)
+        {
+            decimal discountedPrice = price * (discount / 100);
+            return price - discountedPrice;
+        }
+        public bool IsAvaiable()
+        {
+            if(stock > 0) return true;
+            else return false;
+        }
+        public int SellInStock(int soldValue)
+        {
+            return stock - soldValue;
+        }
         public override string ToString() 
         {
-            return $"Produkt: {name}\n Cena:{Price}\n Ilosc na magazynie:{stock}";
+            return $"Produkt: {name}\n Cena:{Price}\n " +
+                $"Ilosc na magazynie:{stock}\n " +
+                $"Cena po rabacie: {DiscountPrice(discount)}\n " +
+                $"Czy dostepne: {IsAvaiable()}\n " +
+                $"Ilosc po sprzedazy: {SellInStock(soldValue)}";
         }
 
     }
@@ -66,9 +104,9 @@ namespace MauiApp5
                 string n = NameEntry.Text;
                 decimal p = decimal.Parse(PriceEntry.Text);
                 int s = int.Parse(StockEntry.Text);
-
-                var product = new Product(n, p, s);
-
+                decimal d = decimal.Parse(DiscountEntry.Text);
+                int so = int.Parse(SellEntry.Text);
+                var product = new Product(n, p, s, d, so);
                 ResultLabel.Text = product.ToString();
             }
             catch (Exception ex)
