@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp5.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+
+            <Entry
+                x:Name="NameEntry" 
+                Placeholder="Nazwa produktu"
+                />
+            <Entry
+                x:Name="PriceEntry"
+                Placeholder="Cena"
+                />
+            <Entry
+                x:Name="StockEntry"
+                Placeholder="Ilosc na magazynie"
+                />
+            <Button
+                Text="Utworz produkt"
+                Clicked="CreateProduct"
+                />
+            <Label
+                x:Name="ResultLabel"
+                />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
